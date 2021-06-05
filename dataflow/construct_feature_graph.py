@@ -43,7 +43,7 @@ def Si(name):
                 S_i = arr[j]
                        
 def euc_dist(name):
-    arr = np.load(name)
+    arr = np.load(Si(name))
     arr_x = (arr[:,0,np.newaxis].T - arr[:,0,np.newaxis])**2
     arr_y = (arr[:,1,np.newaxis].T - arr[:,1,np.newaxis])**2
     arr = np.sqrt(arr_x + arr_y)
