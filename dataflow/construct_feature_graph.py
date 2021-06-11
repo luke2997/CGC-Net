@@ -14,28 +14,24 @@ import cv2
 
 H, W =3584,3584
 
-
 def bubbleSort(arr):
     n = len(arr)
-    # Traverse through all array elements
     for i in range(n-1):
         for j in range(0, n-i-1):
-            # traverse the array from 0 to n-i-1
-            # Swap if the element found is greater than the next element
             if arr[j] > arr[j + 1] :
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return(arr)
    
 # GO through each i=1,2,...,N. Then, if xi - d < xj < xi + d, then put in S(i).
 
-def Si(name):
-    d=100
-    arr_x = (arr[:,0,np.newaxis].T - arr[:,0,np.newaxis])**2
-    n=len(arr_x)
-    for i in range(n):
-        for j in range(n):
-            if arr[i] - d < arr[j] and arr[i] + d > arr[j]:
-                S_i = arr[j]
-                       
+def Si(d, name):
+    x = np.load(bubbleSort(name))
+    n = len(x)
+    return [[j for j in range(n) if np.abs(x[j] - x[i]) < d] for i in range(n)]
+
+#print(Si(d,x))
+
+                      
 def euc_dist(name):
     arr = np.load(Si(name))
     arr_x = (arr[:,0,np.newaxis].T - arr[:,0,np.newaxis])**2
