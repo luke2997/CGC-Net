@@ -25,15 +25,16 @@ def bubbleSort(arr):
 # GO through each i=1,2,...,N. Then, if xi - d < xj < xi + d, then put in S(i).
 
 def Si(d, name):
-    x = np.load(bubbleSort(name))
-    n = len(x)
-    return [[j for j in range(n) if np.abs(x[j] - x[i]) < d] for i in range(n)]
+    arr = np.load(name)
+    arr = bubbleSort(x)  
+    n = len(arr)
+    return [[j for j in range(n) if np.abs(arr[j] - arr[i]) < d] for i in range(n)]
 
 #print(Si(d,x))
 
                       
 def euc_dist(name):
-    arr = np.load(Si(name))
+    arr = np.load(Si(100,name))
     arr_x = (arr[:,0,np.newaxis].T - arr[:,0,np.newaxis])**2
     arr_y = (arr[:,1,np.newaxis].T - arr[:,1,np.newaxis])**2
     arr = np.sqrt(arr_x + arr_y)
