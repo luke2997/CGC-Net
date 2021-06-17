@@ -14,10 +14,28 @@ import cv2
 
 H, W =3584,3584
 
+def bubbleSort(arr):
+    n = len(arr)
+    for i in range(n-1):
+        for j in range(0, n-i-1):
+            if arr[j]  > arr[j + 1]  :
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return(arr)
+    
+def Si(d, x_arr):
+    diff_matrix = np.abs(x_arr[:, np.newaxis] - x_arr[np.newaxis, :]) < d
+    S = [np.where(diff_matrix[i, :])[0] for i in range(diff_matrix.shape[0])]
+    return S
 
                       
 def euc_dist(name):
+  
     arr = np.load(name)
+    arr_x_coord = [item[0] for item in arr]
+    arr_x_bubble = np.array(bubbleSort(arr_x_coord))
+    
+    S = Si(100,arr_x_bubble) #Now for each i in S(i), need to find distance of each (xi,yi) to all (xj,yj) in S(i)
+    
     arr_x = (arr[:,0,np.newaxis].T - arr[:,0,np.newaxis])**2
     arr_y = (arr[:,1,np.newaxis].T - arr[:,1,np.newaxis])**2
     arr = np.sqrt(arr_x + arr_y)
