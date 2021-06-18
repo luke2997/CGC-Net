@@ -27,21 +27,19 @@ def Si(d, x_arr):
     S = [np.where(diff_matrix[i, :])[0] for i in range(diff_matrix.shape[0])]
     return S
 
-                      
-def euc_dist(name):
-  
-    arr = np.load(name)
-    arr_x_coord = [item[0] for item in arr]
-    arr_x_bubble = np.array(bubbleSort(arr_x_coord))
-    
-    S = Si(100,arr_x_bubble) #Now for each i in S(i), need to find distance of each (xi,yi) to all (xj,yj) in S(i)
-    
-    arr_x = (arr[:,0,np.newaxis].T - arr[:,0,np.newaxis])**2
-    arr_y = (arr[:,1,np.newaxis].T - arr[:,1,np.newaxis])**2
-    arr = np.sqrt(arr_x + arr_y)
 
-    np.save(name.replace('coordinate', 'distance'), arr.astype(np.int16))
+def euc_dist(name):
+    arr_x = bubbleSort([item[0] for item in np.load(name)])
+    S= Si(100,arr_x)
+   
+    euc_dists = []
+    for i in range(len(arr)):
+        for j in S[i]: # iterate over j's in S[i]
+            dist = np.linalg.norm(arr[i]-arr[j]) # euclidean distance
+            euc_dists.append(dist)
+    np.save(name.replace('coordinate', 'distance'), euc_dists.astype(np.int16))
     return 0
+
 
 class DataSetting:
     def __init__(self, label = 'fold_1/1_normal'):
