@@ -14,31 +14,33 @@ import cv2
 
 H, W =3584,3584
 
-def bubbleSort(arr):
-    n = len(arr)
-    for i in range(n-1):
-        for j in range(0, n-i-1):
-            if arr[j]  > arr[j + 1]  :
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    return(arr)
-    
-def Si(d, x_arr):
-    diff_matrix = np.abs(x_arr[:, np.newaxis] - x_arr[np.newaxis, :]) < d
-    S = [np.where(diff_matrix[i, :])[0] for i in range(diff_matrix.shape[0])]
-    return S
+H, W = 3584, 3584
 
+# Quick sort function
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x[2] < pivot[2]]
+    middle = [x for x in arr if x[2] == pivot[2]]
+    right = [x for x in arr if x[2] > pivot[2]]
+    return quick_sort(left) + middle + quick_sort(right)
 
 def euc_dist(name):
-    arr_x = bubbleSort([item[0] for item in np.load(name)])
-    S= Si(100,arr_x)
-   
-    euc_dists = []
-    for i in range(len(arr)):
-        for j in S[i]: # iterate over j's in S[i]
-            dist = np.linalg.norm(arr[i]-arr[j]) # euclidean distance
-            euc_dists.append(dist)
-    np.save(name.replace('coordinate', 'distance'), euc_dists.astype(np.int16))
+    arr = np.load(name)
+    N = len(arr)
+    edge_list = []
+    
+    for i in range(N):
+        for j in range(i+1, N):
+            d = np.sqrt((arr[i, 0] - arr[j, 0]) ** 2 + (arr[i, 1] - arr[j, 1]) ** 2)
+            edge_list.append((i, j, d))
+
+    edge_list = quick_sort(edge_list)
+    edge_arr = np.array(edge_list, dtype=[('node1', np.int16), ('node2', np.int16), ('distance', np.float32)])
+    np.save(name.replace('coordinate', 'distance'), edge_arr)
     return 0
+
 
 
 class DataSetting:
