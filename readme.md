@@ -2,7 +2,7 @@
 by Luke Johnston and Yu Zhangsheng
 
 ## Introduction
-An extension of the paper: [CGC-Net: Cell Graph Convolutional Network for Grading of Colorectal Cancer Histology Images](https://arxiv.org/abs/1909.01068). Please contact authors of this paper to get CRC dataset, i.e. Dr Nasir Rajpoot. Our NSCLCC dataset is not yet ready to be released. Will publish when confirmed. 
+An extension of the paper: [CGC-Net: Cell Graph Convolutional Network for Grading of Colorectal Cancer Histology Images](https://arxiv.org/abs/1909.01068). We would like to thank the authors of this research for the motivation to extend this and for allowing us to use their data. Please contact authors of their paper to get CRC dataset, i.e. Dr Nasir Rajpoot. Our NSCLCC dataset is not yet ready to be released. Will publish when confirmed. 
 
 Data simulation can be done by running simulation.py. Parameters/configuration can be modified etc as per our paper or for your own needs.
 
