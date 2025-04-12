@@ -1,8 +1,8 @@
-# CGC-Net: Cell Graph Convolutional Network for Grading of Colorectal Cancer Histology Images
-by Yanning Zhou, Simon Graham, Navid Alemi Koohbanani, Muhammad Shaban, Pheng-Ann Heng and Nasir Rajpoot.
+# Spatially Aware GCNs for Efficient, High-Accuracy Cancer Grading: Mitigating Oversmoothing via Frequency Analysis
+by Luke Johnston and Yu Zhangsheng
 
 ## Introduction
-This repository is for our ICCVW2019 paper [CGC-Net: Cell Graph Convolutional Network for Grading of Colorectal Cancer Histology Images](https://arxiv.org/abs/1909.01068).
+An extension of the paper: [CGC-Net: Cell Graph Convolutional Network for Grading of Colorectal Cancer Histology Images](https://arxiv.org/abs/1909.01068). Please contact authors of this paper to get CRC dataset. Our NSCLCC dataset is not yet ready to be released. 
 
 ![cellgraph](./images/top.png)
 A histology image (a) is typically broken into small image patches (b) for cancer grading. We propose to utilise the cell graph (d) that is built from individual nuclei after segmentation (c) to model the entire tissue micro-environment for cancer grading.
@@ -60,15 +60,4 @@ You may need to change the sampling method, times and other parameters acccordin
 ```angular2html
 cd CGC-Net
 sh parallel_train.sh
-```
-
-## Citation
-If CGC-Net is useful for your research, please consider citing:
-```angular2html
-@inproceedings{zhou2019cgc,
-  title={CGC-Net: Cell Graph Convolutional Network for Grading of Colorectal Cancer Histology Images},
-  author={Zhou, Yanning and Graham, Simon and Koohbanani, Navid Alemi and Shaban, Muhammad and Heng, Pheng-Ann and Rajpoot, Nasir},
-  booktitle={The IEEE International Conference on Computer Vision (ICCV) Workshops}, 
-  year={2019}
-}
 ```
