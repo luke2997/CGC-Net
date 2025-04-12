@@ -2,10 +2,10 @@
 by Luke Johnston and Yu Zhangsheng
 
 ## Introduction
-An extension of the paper: [CGC-Net: Cell Graph Convolutional Network for Grading of Colorectal Cancer Histology Images](https://arxiv.org/abs/1909.01068). Please contact authors of this paper to get CRC dataset. Our NSCLCC dataset is not yet ready to be released. 
+An extension of the paper: [CGC-Net: Cell Graph Convolutional Network for Grading of Colorectal Cancer Histology Images](https://arxiv.org/abs/1909.01068). Please contact authors of this paper to get CRC dataset, i.e. Dr Nasir Rajpoot. Our NSCLCC dataset is not yet ready to be released. Will publish when confirmed. 
 
-![cellgraph](./images/top.png)
-A histology image (a) is typically broken into small image patches (b) for cancer grading. We propose to utilise the cell graph (d) that is built from individual nuclei after segmentation (c) to model the entire tissue micro-environment for cancer grading.
+Data simulation can be done by running simulation.py. Parameters/configuration can be modified etc as per our paper or for your own needs.
+
 ## Requirements
 -   python 3.6.1
 -   torch 1.1.0
@@ -61,3 +61,4 @@ You may need to change the sampling method, times and other parameters acccordin
 cd CGC-Net
 sh parallel_train.sh
 ```
+
