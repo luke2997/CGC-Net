@@ -46,7 +46,6 @@ class QuantileDilatedDenseSAGEConv(nn.Module):
         assert abs(sum(weights) - 1.0) < EPS, "weights must sum to 1"
         # Register taus first
         self.register_buffer('taus', torch.tensor(taus, dtype=torch.float))
-        # Register weights ensuring dtype matches taus (Correct based on previous revision)
         self.register_buffer('weights', torch.tensor(weights, dtype=torch.float).to(self.taus.dtype))
         self.num_quantiles = len(taus)
 
@@ -375,7 +374,6 @@ class GNN_Module(nn.Module):
         x = x.view(batch_size, num_nodes, num_channels); return x
 
     def forward(self, x, adj, mask=None):
-        # Keyword args used (Correct based on previous revision)
         x1 = self.gcn1(x, adj, mask=mask, add_loop=self.add_loop)
         x1 = self.active1(x1); x1 = self.bn(1, x1) if self.bn_flag else x1
         x2 = self.gcn2(x1, adj, mask=mask, add_loop=self.add_loop)
@@ -429,7 +427,6 @@ class SoftPoolingGcnEncoder(nn.Module):
                              dilation_mode=dilation_mode, taus=taus, weights=weights,
                              normalize_sage=normalize_sage, train_eps_gin=train_eps_gin)
 
-        # Stage 1 (Duplicate GCN_embed_1 removed based on previous revision)
         self.GCN_embed_1 = GNN_Module(input_dim, hidden_dim, embedding_dim, layer_idx_start=1, **embed_gnn_args)
         gnn1_out_dim = 2 * hidden_dim + embedding_dim
         self.jk1 = DenseJK(self.jk_mode, channels=gnn1_out_dim, num_layers=1) if self.jk_mode else None
@@ -437,7 +434,6 @@ class SoftPoolingGcnEncoder(nn.Module):
 
         input_dim_second = gnn1_out_dim # Adjust if JK changes dim
 
-        # Stage 2
         self.GCN_embed_2 = GNN_Module(input_dim_second, hidden_dim, embedding_dim, layer_idx_start=4, **embed_gnn_args)
         gnn2_out_dim = 2 * hidden_dim + embedding_dim
         self.jk2 = DenseJK(self.jk_mode, channels=gnn2_out_dim, num_layers=1) if self.jk_mode else None
@@ -445,12 +441,10 @@ class SoftPoolingGcnEncoder(nn.Module):
 
         input_dim_third = gnn2_out_dim # Adjust if JK changes dim
 
-        # Stage 3
         self.GCN_embed_3 = GNN_Module(input_dim_third, hidden_dim, embedding_dim, layer_idx_start=7, **embed_gnn_args)
         gnn3_out_dim = 2 * hidden_dim + embedding_dim
         self.jk3 = DenseJK(self.jk_mode, channels=gnn3_out_dim, num_layers=1) if self.jk_mode else None
 
-        # Final Readout MLP
         pred_input_dim = gnn1_out_dim + gnn2_out_dim + gnn3_out_dim # Adjust if JK changes dim
         self.pred_model = self.build_readout_module(pred_input_dim, pred_hidden_dims, label_dim, activation)
         self.init_weights()
@@ -463,7 +457,6 @@ class SoftPoolingGcnEncoder(nn.Module):
 
     @staticmethod
     def construct_mask(max_nodes, batch_num_nodes):
-        # Returns [B, N] float mask (Correct based on previous revision)
         batch_size = len(batch_num_nodes)
         out_tensor = torch.zeros(batch_size, max_nodes, dtype=torch.float, device=batch_num_nodes.device)
         for i, num in enumerate(batch_num_nodes):
@@ -472,7 +465,6 @@ class SoftPoolingGcnEncoder(nn.Module):
         return out_tensor
 
     def _re_norm_adj(self, adj, p=0.4, mask=None):
-        # Uses [B, N] mask correctly (Correct based on previous revision)
         batch_size, num_nodes, _ = adj.shape
         new_adj = adj.clone(); idx = torch.arange(num_nodes, device=adj.device)
         new_adj[:, idx, idx] = 0
@@ -487,7 +479,6 @@ class SoftPoolingGcnEncoder(nn.Module):
         return normalized_off_diag
 
     def _diff_pool(self, x, adj, s, mask=None):
-        # Handles [B, N] mask correctly (Correct based on previous revision)
         x = x.unsqueeze(0) if x.dim() == 2 else x
         adj = adj.unsqueeze(0) if adj.dim() == 2 else adj
         s = s.unsqueeze(0) if s.dim() == 2 else s
@@ -536,7 +527,6 @@ class SoftPoolingGcnEncoder(nn.Module):
             else: batch_num_nodes = batch_num_nodes.to(x.device) # Ensure device
 
         max_num_nodes = adj.size(1)
-        # Create [B, N] float mask (Correct based on previous revision)
         embedding_mask = self.construct_mask(max_num_nodes, batch_num_nodes).to(x.device)
 
         if self.norm_adj: adj = self._re_norm_adj(adj, p=0.4, mask=embedding_mask)
